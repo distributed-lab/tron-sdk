@@ -3,11 +3,13 @@ module github.com/distributed-lab/tron-sdk
 go 1.20
 
 require (
+	github.com/btcsuite/btcd/btcutil v1.1.3
 	github.com/ethereum/go-ethereum v1.12.2
 	github.com/fbsobreira/gotron-sdk v0.0.0-20230714102740-d3204bd08259
 	github.com/martinboehm/btcutil v0.0.0-20211010173611-6ef1889c1819
 	gitlab.com/distributed_lab/logan v3.8.1+incompatible
 	google.golang.org/grpc v1.57.0
+	google.golang.org/protobuf v1.30.0
 )
 
 require (
@@ -37,5 +39,4 @@ require (
 	google.golang.org/genproto v0.0.0-20230526161137-0005af68ea54 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20230525234035-dd9d682886f9 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230525234030-28d5490b6b19 // indirect
-	google.golang.org/protobuf v1.30.0 // indirect
 )
