@@ -8,7 +8,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/distributed-lab/tron-sdk/data"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/fbsobreira/gotron-sdk/pkg/address"
 	gotroncli "github.com/fbsobreira/gotron-sdk/pkg/client"
@@ -80,20 +79,20 @@ func (cli *TronClient) GetTransactionInfoByBlockNum(block int64) ([]TxInfo, time
 	return txs, blockTime, nil
 }
 
-func (cli *TronClient) GetTransactionResultById(id string) (data.TransferStatus, *core.Transaction_Result, error) {
+func (cli *TronClient) GetTransactionResultById(id string) (string, *core.Transaction_Result, error) {
 	tx, err := cli.WrappedCli.GetTransactionByID(id)
 	if err != nil && err.Error() != "transaction info not found" {
-		return 0, nil, errors.Wrap(err, "failed to get transaction by id")
+		return TronRevertedTx, nil, errors.Wrap(err, "failed to get transaction by id")
 	}
 	if err != nil {
-		return data.Rejected, nil, nil
+		return TronRevertedTx, nil, nil
 	}
 
 	if tx.Ret[0].ContractRet.String() == TronRevertedTx {
-		return data.Rejected, nil, nil
+		return TronRevertedTx, nil, nil
 	}
 
-	return data.Approved, tx.Ret[0], nil
+	return TronSucceededTx, tx.Ret[0], nil
 }
 
 func (cli *TronClient) GetTxInfo(id string) (*core.TransactionInfo, error) {
@@ -127,7 +126,7 @@ func (cli *TronClient) GetTransactionById(id string) (Tx, error) {
 }
 
 func (cli *TronClient) BalanceOf(address address.Address, tokenAddress string) (*big.Int, error) {
-	if tokenAddress == data.NativeToken {
+	if tokenAddress == NativeToken {
 		balance, err := cli.NativeBalanceOf(address.String())
 		if err != nil {
 			return nil, errors.Wrap(err, "failed to get balance")

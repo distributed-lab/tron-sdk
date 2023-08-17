@@ -6,6 +6,8 @@ const (
 	BalanceOfPrefix = "70a08231000000000000000000000000"
 )
 
+const NativeToken = "T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb"
+
 type Block struct {
 	BlockID     string `json:"blockID"`
 	BlockHeader struct {
