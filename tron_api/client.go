@@ -11,6 +11,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/fbsobreira/gotron-sdk/pkg/address"
 	gotroncli "github.com/fbsobreira/gotron-sdk/pkg/client"
+	"github.com/fbsobreira/gotron-sdk/pkg/proto/api"
 	"github.com/fbsobreira/gotron-sdk/pkg/proto/core"
 	"github.com/martinboehm/btcutil/base58"
 	"gitlab.com/distributed_lab/logan/v3/errors"
@@ -187,4 +188,31 @@ func (cli *TronClient) GetContractOwner(c address.Address) (address.Address, err
 	}
 
 	return owner, nil
+}
+
+func (cli *TronClient) GetBlockById(id string) (*core.Block, error) {
+	block, err := cli.WrappedCli.GetBlockByID(id)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get block by id")
+	}
+
+	return block, nil
+}
+
+func (cli *TronClient) GetBlockByNum(num int64) (*api.BlockExtention, error) {
+	block, err := cli.WrappedCli.GetBlockByNum(num)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get block by num")
+	}
+
+	return block, nil
+}
+
+func (cli *TronClient) GetBlockByLatestNum(num int32) (*api.BlockExtention, error) {
+	block, err := cli.WrappedCli.GetNowBlock()
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get block by num")
+	}
+
+	return block, nil
 }
